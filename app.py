@@ -26,28 +26,28 @@ selected_scheme = st.selectbox("Select Scheme", schemes)
 scheme_df = df[df["scheme_name"] == selected_scheme]
 
 # ---------------- BEST / WORST ----------------
-best_row = scheme_df.loc[scheme_df["cagr_percent"].idxmax()]
-worst_row = scheme_df.loc[scheme_df["cagr_percent"].idxmin()]
-gap = best_row["cagr_percent"] - worst_row["cagr_percent"]
+best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
+worst_row = scheme_df.loc[scheme_df["cagr_%"].idxmin()]
+gap = best_row["cagr_%"] - worst_row["cagr_%"]
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("Best SIP Day", f"Day {int(best_row['sip_day'])}", f"{round(best_row['cagr_percent'],2)}% CAGR")
-col2.metric("Worst SIP Day", f"Day {int(worst_row['sip_day'])}", f"{round(worst_row['cagr_percent'],2)}% CAGR")
+col1.metric("Best SIP Day", f"Day {int(best_row['sip_day'])}", f"{round(best_row['cagr_%'],2)}% CAGR")
+col2.metric("Worst SIP Day", f"Day {int(worst_row['sip_day'])}", f"{round(worst_row['cagr_%'],2)}% CAGR")
 col3.metric("Performance Gap", f"{round(gap,2)}%")
 
 # ---------------- GRAPH ----------------
 fig = px.line(
     scheme_df,
     x="sip_day",
-    y="cagr_percent",
+    y="cagr_%",
     markers=True,
     color_discrete_sequence=["#0f9d58"]
 )
 
 fig.add_scatter(
     x=[best_row["sip_day"]],
-    y=[best_row["cagr_percent"]],
+    y=[best_row["cagr_%"]],
     mode="markers",
     marker=dict(size=15, color="red"),
     name="Best Day"
@@ -58,21 +58,21 @@ st.plotly_chart(fig, use_container_width=True)
 # ---------------- OVERALL ----------------
 st.subheader("Overall Analysis")
 
-overall_df = df.groupby("sip_day")["cagr_percent"].mean().reset_index()
+overall_df = df.groupby("sip_day")["cagr_%"].mean().reset_index()
 
-best_overall = overall_df.loc[overall_df["cagr_percent"].idxmax()]
-worst_overall = overall_df.loc[overall_df["cagr_percent"].idxmin()]
+best_overall = overall_df.loc[overall_df["cagr_%"].idxmax()]
+worst_overall = overall_df.loc[overall_df["cagr_%"].idxmin()]
 
 col1, col2, col3 = st.columns(3)
 
-col1.metric("Overall Best Day", f"Day {int(best_overall['sip_day'])}", f"{round(best_overall['cagr_percent'],2)}%")
-col2.metric("Overall Worst Day", f"Day {int(worst_overall['sip_day'])}", f"{round(worst_overall['cagr_percent'],2)}%")
-col3.metric("Overall Gap", f"{round(best_overall['cagr_percent'] - worst_overall['cagr_percent'],2)}%")
+col1.metric("Overall Best Day", f"Day {int(best_overall['sip_day'])}", f"{round(best_overall['cagr_%'],2)}%")
+col2.metric("Overall Worst Day", f"Day {int(worst_overall['sip_day'])}", f"{round(worst_overall['cagr_%'],2)}%")
+col3.metric("Overall Gap", f"{round(best_overall['cagr_%'] - worst_overall['cagr_%'],2)}%")
 
 fig2 = px.line(
     overall_df,
     x="sip_day",
-    y="cagr_percent",
+    y="cagr_%",
     markers=True,
     color_discrete_sequence=["#0f9d58"]
 )
@@ -82,7 +82,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # ---------------- HEATMAP ----------------
 st.subheader("CAGR Heatmap")
 
-pivot = df.pivot(index="scheme_name", columns="sip_day", values="cagr_percent")
+pivot = df.pivot(index="scheme_name", columns="sip_day", values="cagr_%")
 
 plt.figure(figsize=(12,6))
 sns.heatmap(pivot, cmap="Greens", annot=False)
