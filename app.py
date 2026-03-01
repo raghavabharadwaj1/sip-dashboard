@@ -1,33 +1,20 @@
 import streamlit as st
 import pandas as pd
-import mysql.connector
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="SIP Timing Dashboard", layout="wide")
 
-# ---------------- GREEN THEME ----------------
-st.markdown("""
-    <style>
-    body {background-color: #e6f4ea;}
-    .stMetric {background-color: white; padding: 15px; border-radius: 10px;}
-    </style>
-""", unsafe_allow_html=True)
+# ---------------- LOAD DATA FROM EXCEL ----------------
+@st.cache_data
+def load_data():
+    return pd.read_excel("SIP_Calendar_CAGR_Results.xlsx")
 
-# ---------------- DATABASE CONNECTION ----------------
-def get_data():
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="your_password",
-        database="sip_analysis"
-    )
-    df = pd.read_sql("SELECT * FROM sip_calendar_cagr WHERE period_years = 3", conn)
-    conn.close()
-    return df
+df = load_data()
 
-df = get_data()
+# Filter only 3-year data
+df = df[df["period_years"] == 3]
 
 st.title("📊 SIP Timing Analysis Dashboard")
 
@@ -67,7 +54,7 @@ fig.add_scatter(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# ---------------- OVERALL ANALYSIS ----------------
+# ---------------- OVERALL ----------------
 st.subheader("Overall Analysis")
 
 overall_df = df.groupby("sip_day")["cagr_percent"].mean().reset_index()
