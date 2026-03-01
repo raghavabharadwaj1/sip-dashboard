@@ -3,13 +3,14 @@ import pandas as pd
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import os
 st.set_page_config(page_title="SIP Timing Dashboard", layout="wide")
 
 # ---------------- LOAD DATA FROM EXCEL ----------------
 @st.cache_data
 def load_data():
-    return pd.read_excel("SIP_Calendar_CAGR_Results.xlsx")
+    file_path = os.path.join(os.getcwd(), "SIP_Calendar_CAGR_Results.xlsx")
+    return pd.read_excel(file_path)
 
 df = load_data()
 
