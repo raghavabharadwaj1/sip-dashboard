@@ -1,6 +1,6 @@
 streamlit
 pandas
-mysql-connector-python
+openpyxl
 plotly
 seaborn
 matplotlib
