@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIP Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #e6f4ea;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .green-text {
+            color: #0f9d58;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+
+    <h2 class="mb-4 green-text">Scheme SIP Analysis</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card p-3 bg-white">
+                <h5>Best SIP Day</h5>
+                <h3 class="green-text">Day <span id="bestDayCounter">0</span></h3>
+                <p>CAGR: {{ best_cagr }}%</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 bg-white">
+                <h5>Worst SIP Day</h5>
+                <h3>Day {{ worst_day }}</h3>
+                <p>CAGR: {{ worst_cagr }}%</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3 bg-white">
+                <h5>Performance Gap</h5>
+                <h3 class="green-text">
+                    {{ (best_cagr - worst_cagr)|round(2) }}%
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4 bg-white">
+        <canvas id="sipChart"></canvas>
+    </div>
+
+    <script>
+        const bestDay = {{ best_day }};
+        const days = {{ days | safe }};
+        const cagrs = {{ cagrs | safe }};
+
+        const highlightPoints = days.map((d, i) => {
+            if (d === bestDay) {
+                return {
+                    x: d,
+                    y: cagrs[i]
+                };
+            }
+            return null;
+        });
+
+        const ctx = document.getElementById('sipChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: 'CAGR %',
+                    data: cagrs,
+                    borderColor: '#0f9d58',
+                    backgroundColor: 'rgba(15,157,88,0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: days.map(d =>
+                        d === bestDay ? '#ff0000' : '#0f9d58'
+                    ),
+                    pointRadius: days.map(d =>
+                        d === bestDay ? 8 : 3
+                    )
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#0f9d58'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'SIP Day'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'CAGR %'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <a href="/" class="btn btn-success">Back</a>
+<script>
+function animateValue(id, start, end, duration) {
+    let range = end - start;
+    let current = start;
+    let increment = end > start ? 1 : -1;
+    let stepTime = Math.abs(Math.floor(duration / range));
+    let obj = document.getElementById(id);
+
+    let timer = setInterval(function() {
+        current += increment;
+        obj.innerHTML = current;
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
+window.onload = function() {
+    animateValue("bestDayCounter", 0, {{ best_day }}, 1000);
+};
+</script>
+</body>
+</html>

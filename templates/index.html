@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIP Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h2 class="green-text mb-4">SIP Timing Analysis Dashboard</h2>
+
+<div class="row">
+    {% for scheme in schemes %}
+    <div class="col-md-4 mb-3">
+        <div class="card p-3 bg-white">
+            <h6>{{ scheme.scheme_name }}</h6>
+            <a href="/scheme/{{ scheme.scheme_code }}" class="btn btn-success btn-sm mt-2">
+                View Analysis
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br>
+<a href="/overall" class="btn btn-success">Overall Analysis</a>
+<a href="/heatmap" class="btn btn-success">Heatmap View</a>
+
+</body>
+</html>

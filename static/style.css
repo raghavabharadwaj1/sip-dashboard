@@ -1,0 +1,25 @@
+body {
+    background-color: #e6f4ea;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.green-text {
+    color: #0f9d58;
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.btn-success {
+    background-color: #0f9d58;
+    border: none;
+}
