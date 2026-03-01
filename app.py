@@ -21,9 +21,13 @@ st.title("📊 SIP Timing Analysis Dashboard")
 
 # ---------------- SCHEME SELECT ----------------
 schemes = df["scheme_name"].unique()
-selected_scheme = st.selectbox("Select Scheme", schemes)
+selected_schemes = st.multiselect(
+    "Select Schemes to Compare",
+    schemes,
+    default=schemes[:1]  # default first scheme
+)
 
-scheme_df = df[df["scheme_name"] == selected_scheme]
+scheme_df = df[df["scheme_name"].isin(selected_schemes)]
 
 # ---------------- BEST / WORST ----------------
 best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
@@ -41,20 +45,37 @@ fig = px.line(
     scheme_df,
     x="sip_day",
     y="cagr_%",
+    color="scheme_name",
     markers=True,
-    color_discrete_sequence=["#0f9d58"]
+    color_discrete_sequence=px.colors.qualitative.Set2
 )
 
-fig.add_scatter(
-    x=[best_row["sip_day"]],
-    y=[best_row["cagr_%"]],
-    mode="markers",
-    marker=dict(size=15, color="red"),
-    name="Best Day"
+fig.update_layout(
+    title="SIP Day CAGR Comparison",
+    xaxis_title="SIP Day",
+    yaxis_title="CAGR %",
+    legend_title="Scheme",
+    template="plotly_white"
 )
 
 st.plotly_chart(fig, use_container_width=True)
+st.subheader("Best SIP Day per Selected Scheme")
 
+summary_data = []
+
+for scheme in selected_schemes:
+    temp = df[df["scheme_name"] == scheme]
+    best_row = temp.loc[temp["cagr_%"].idxmax()]
+    
+    summary_data.append({
+        "Scheme": scheme,
+        "Best SIP Day": int(best_row["sip_day"]),
+        "Best CAGR %": round(best_row["cagr_%"], 2)
+    })
+
+summary_df = pd.DataFrame(summary_data)
+
+st.dataframe(summary_df)
 # ---------------- OVERALL ----------------
 st.subheader("Overall Analysis")
 
