@@ -205,7 +205,7 @@ elif selected_top == "Analysis Dashboard":
             title="Average CAGR by SIP Day",
             xaxis_title="SIP Day",
             yaxis_title="Average CAGR %",
-            template="plotly_white"
+            template="plotly_white",
             yaxis=dict(range=[-20,30])
         )
 
