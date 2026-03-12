@@ -109,7 +109,8 @@ elif selected_top == "Analysis Dashboard":
             title="CAGR by SIP Day",
             xaxis_title="SIP Day",
             yaxis_title="CAGR %",
-            template="plotly_white"
+            template="plotly_white",
+            yaxis=dict(range=[-20,30])
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -141,7 +142,7 @@ elif selected_top == "Analysis Dashboard":
             xaxis_title="SIP Day",
             yaxis_title="CAGR %",
             legend_title="Scheme",
-            template="plotly_white"
+            template="plotly_white",
             yaxis=dict(range=[-20,30])
         )
 
