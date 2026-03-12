@@ -224,15 +224,15 @@ elif selected_top == "Analysis Dashboard":
         st.pyplot(plt)
     with tab5:
 
-    st.subheader("Selected Scheme Data")
+        st.subheader("Selected Scheme Data")
 
-    schemes = df["scheme_name"].unique()
+        schemes = df["scheme_name"].unique()
 
-    selected_schemes = st.multiselect(
+        selected_schemes = st.multiselect(
         "Select Schemes to View Data",
         schemes,
         default=schemes[:1]
-    )
+      )
 
     filtered_df = df[df["scheme_name"].isin(selected_schemes)]
 
