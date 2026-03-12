@@ -18,6 +18,17 @@ df = load_data()
 df = df[df["period_years"] == 3]
 
 st.title("📊 SIP Timing Analysis Dashboard")
+st.sidebar.header("Controls")
+
+schemes = df["scheme_name"].unique()
+
+selected_schemes_sidebar = st.sidebar.multiselect(
+    "Select Schemes",
+    schemes,
+    default=schemes[:1]
+)
+
+df_filtered = df[df["scheme_name"].isin(selected_schemes_sidebar)]
 
 # ---------------- NAVIGATION ----------------
 selected_top = option_menu(
@@ -50,8 +61,8 @@ if selected_top == "Home":
 # ---------------- MAIN DASHBOARD ----------------
 elif selected_top == "Analysis Dashboard":
 
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["📈 Scheme Analysis", "📊 Compare Schemes", "🌍 Overall Analysis", "🔥 Heatmap"]
+    tab1, tab2, tab3, tab4 , tab5 = st.tabs(
+        ["📈 Scheme Analysis", "📊 Compare Schemes", "🌍 Overall Analysis", "🔥 Heatmap","🗂️Data"]
     )
 
     # ---------------- TAB 1 : SCHEME ANALYSIS ----------------
@@ -61,7 +72,7 @@ elif selected_top == "Analysis Dashboard":
 
         selected_scheme = st.selectbox("Select Scheme", schemes)
 
-        scheme_df = df[df["scheme_name"] == selected_scheme]
+        scheme_df = df_filtered[df["scheme_name"] == selected_scheme]
 
         best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
         worst_row = scheme_df.loc[scheme_df["cagr_%"].idxmin()]
@@ -131,6 +142,7 @@ elif selected_top == "Analysis Dashboard":
             yaxis_title="CAGR %",
             legend_title="Scheme",
             template="plotly_white"
+            yaxis=dict(range=[-20,30])
         )
 
         st.plotly_chart(fig, use_container_width=True)
@@ -156,7 +168,7 @@ elif selected_top == "Analysis Dashboard":
     # ---------------- TAB 3 : OVERALL ANALYSIS ----------------
     with tab3:
 
-        overall_df = df.groupby("sip_day")["cagr_%"].mean().reset_index()
+        overall_df = df_filtered.groupby("sip_day")["cagr_%"].mean().reset_index()
 
         best_overall = overall_df.loc[overall_df["cagr_%"].idxmax()]
         worst_overall = overall_df.loc[overall_df["cagr_%"].idxmin()]
@@ -193,6 +205,7 @@ elif selected_top == "Analysis Dashboard":
             xaxis_title="SIP Day",
             yaxis_title="Average CAGR %",
             template="plotly_white"
+            yaxis=dict(range=[-20,30])
         )
 
         st.plotly_chart(fig2, use_container_width=True)
@@ -208,3 +221,18 @@ elif selected_top == "Analysis Dashboard":
         sns.heatmap(pivot, cmap="Greens", annot=False)
 
         st.pyplot(plt)
+    with tab5:
+
+    st.subheader("Selected Scheme Data")
+
+    schemes = df["scheme_name"].unique()
+
+    selected_schemes = st.multiselect(
+        "Select Schemes to View Data",
+        schemes,
+        default=schemes[:1]
+    )
+
+    filtered_df = df[df["scheme_name"].isin(selected_schemes)]
+
+    st.dataframe(filtered_df, use_container_width=True)
