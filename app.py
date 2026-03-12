@@ -210,9 +210,9 @@ elif selected_top == "Heatmap":
     sns.heatmap(pivot, cmap="Greens", annot=False)
 
     st.pyplot(plt)
-    for scheme in selected_schemes:
-    temp = df[df["scheme_name"] == scheme]
-    best_row = temp.loc[temp["cagr_%"].idxmax()]
+     for scheme in selected_schemes:
+     temp = df[df["scheme_name"] == scheme]
+     best_row = temp.loc[temp["cagr_%"].idxmax()]
     
     summary_data.append({
         "Scheme": scheme,
