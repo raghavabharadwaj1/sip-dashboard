@@ -30,7 +30,12 @@ if df.empty:
     st.stop()
 
 # ---------------- TITLE ----------------
-st.title("📊 MUTUAL FUNDS-Akhir Kaunsa din sahi hai")
+st.markdown("""
+    <div style="text-align: left;">
+        <h1 style="margin-bottom: 0px;">MUTUAL FUNDS</h1>
+        <p style="font-size: 24px; color: #666; margin-top: 0px;">Akhir Kaunsa din sahi hai</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
