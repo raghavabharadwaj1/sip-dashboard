@@ -30,20 +30,18 @@ if df.empty:
     st.stop()
 
 # ---------------- TITLE & LOGO SECTION ----------------
-# Adjust the [1, 10] ratio if your logo needs more or less horizontal space
-col1, col2 = st.columns([1, 10]) 
+# Creating two columns: small one for logo, large one for the title
+col1, col2 = st.columns([1, 8]) 
 
 with col1:
-    # CHANGE THIS to your exact filename
-    logo_path = os.path.join(SCRIPT_DIR, "logo2.jpg") 
+    # Make sure your file is named "logo2.jpg" and is in the same folder as this script
+    logo_path = os.path.join(BASE_DIR, "logo2.jpg")
     
     if os.path.exists(logo_path):
-        st.image(logo_path, width=80) 
+        st.image(logo_path, width=85)
     else:
-        # If file is not found, show a placeholder icon so the layout doesn't break
-        st.write("## 📊") 
-        # For debugging: uncomment the line below to see where it is looking
-        # st.error(f"Looking for: {logo_path}")
+        # If the image is missing, show a placeholder icon so the app doesn't crash
+        st.write("📊")
 
 with col2:
     st.markdown("""
