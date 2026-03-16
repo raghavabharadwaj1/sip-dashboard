@@ -38,7 +38,7 @@ col1, col2 = st.columns([1, 9])
 # 2. LOGO COLUMN (Replacing the graph icon)
 with col1:
     # --- UPDATE THIS: Put your actual logo file name here ---
-    logo_filename = "logo2.jpg" # Example: "my_brand_icon.png"
+    logo_filename = "logo2.jpeg" # Example: "my_brand_icon.png"
 
     if os.path.exists(logo_filename):
         # Specifying only 'width=80' ensures it scales properly
