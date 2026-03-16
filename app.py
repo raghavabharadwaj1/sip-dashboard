@@ -65,8 +65,7 @@ selected_schemes = st.sidebar.multiselect(
 )
 
 scheme_df = df[df["scheme_name"].isin(selected_schemes)]
-
-  scheme_df = filtered_df
+scheme_df = filtered_df
 
     if len(selected_schemes) == 1:
 
