@@ -104,8 +104,7 @@ if len(selected_schemes) == 1:
         )
 
         st.plotly_chart(fig, use_container_width=True)
-
-    else:
+else:
 
         st.subheader("SIP Day CAGR Comparison")
 
