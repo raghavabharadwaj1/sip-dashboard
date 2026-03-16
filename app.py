@@ -137,7 +137,6 @@ for p in periods:
 
         st.plotly_chart(fig, use_container_width=True)
 # ---------------- OVERALL ANALYSIS ----------------
-
 elif selected_top == "Overall Analysis":
 
     st.subheader("Best SIP Day by Period")
