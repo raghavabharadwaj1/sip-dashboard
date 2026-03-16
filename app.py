@@ -62,7 +62,7 @@ elif selected_top == "Compare Schemes":
         default=schemes[:1]
     )
 
-    scheme_df = df[df["scheme_name"].isin(selected_schemes)]
+    scheme_df = filtered_df[df["scheme_name"].isin(selected_schemes)]
 
     fig = px.line(
         scheme_df,
@@ -106,7 +106,7 @@ elif selected_top == "Compare Schemes":
 # ---------------- OVERALL ANALYSIS ----------------
 elif selected_top == "Overall Analysis":
 
-    overall_df = df.groupby("sip_day")["cagr_%"].mean().reset_index()
+    overall_df = filtered_df.groupby("sip_day")["cagr_%"].mean().reset_index()
 
     best_overall = overall_df.loc[overall_df["cagr_%"].idxmax()]
     worst_overall = overall_df.loc[overall_df["cagr_%"].idxmin()]
