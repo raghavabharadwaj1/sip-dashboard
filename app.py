@@ -56,7 +56,7 @@ elif selected_top == "Compare Schemes":
 
     schemes = df["scheme_name"].unique()
 
-    selected_schemes = st.multiselect(
+    selected_schemes = st.sidebar.multiselect(
         "Select Schemes to Compare",
         schemes,
         default=schemes[:1]
@@ -152,7 +152,7 @@ elif selected_top == "Overall Analysis":
 elif selected_top == "Data":
     st.subheader("Selected Scheme Data")
     schemes = df["scheme_name"].unique()
-    selected_schemes = st.multiselect(
+    selected_schemes = st.sidebar.multiselect(
         "Select Schemes to View Data",
         schemes,
         default=schemes[:1]
