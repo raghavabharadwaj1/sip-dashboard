@@ -30,7 +30,7 @@ if df.empty:
     st.stop()
 
 # ---------------- TITLE ----------------
-st.title("📊 SIP Timing Analysis Dashboard")
+st.title("📊 MUTUAL FUNDS-Akhir Kaunsa din sahi hai")
 
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
