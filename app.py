@@ -67,7 +67,7 @@ selected_schemes = st.sidebar.multiselect(
 scheme_df = df[df["scheme_name"].isin(selected_schemes)]
 scheme_df = filtered_df
 
-    if len(selected_schemes) == 1:
+   if len(selected_schemes) == 1:
 
         st.subheader("Scheme Analysis")
 
