@@ -25,8 +25,8 @@ st.title("📊 SIP Timing Analysis Dashboard")
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
     menu_title=None,
-    options=["Home", "Scheme Analysis", "Compare Schemes", "Overall Analysis", "Heatmap"],
-    icons=["house", "graph-up", "bar-chart", "globe", "grid"],
+    options=["Home", "Compare Schemes", "Overall Analysis", "Heatmap"],
+    icons=["house","bar-chart", "globe", "grid"],
     default_index=0,
     orientation="horizontal",
 )
@@ -51,59 +51,6 @@ if selected_top == "Home":
         • Heatmap visualization of SIP timing sensitivity  
         """
     )
-
-# ---------------- SCHEME ANALYSIS ----------------
-elif selected_top == "Scheme Analysis":
-
-    schemes = df["scheme_name"].unique()
-
-    selected_scheme = st.selectbox(
-        "Select Scheme",
-        schemes
-    )
-
-    scheme_df = df[df["scheme_name"] == selected_scheme]
-
-    best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
-    worst_row = scheme_df.loc[scheme_df["cagr_%"].idxmin()]
-    gap = best_row["cagr_%"] - worst_row["cagr_%"]
-
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric(
-        "Best SIP Day",
-        f"Day {int(best_row['sip_day'])}",
-        f"{round(best_row['cagr_%'],2)}%"
-    )
-
-    col2.metric(
-        "Worst SIP Day",
-        f"Day {int(worst_row['sip_day'])}",
-        f"{round(worst_row['cagr_%'],2)}%"
-    )
-
-    col3.metric(
-        "Performance Gap",
-        f"{round(gap,2)}%"
-    )
-
-    fig = px.line(
-        scheme_df,
-        x="sip_day",
-        y="cagr_%",
-        markers=True,
-        color_discrete_sequence=["#0f9d58"]
-    )
-
-    fig.update_layout(
-        title="CAGR by SIP Day",
-        xaxis_title="SIP Day",
-        yaxis_title="CAGR %",
-        template="plotly_white"
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
 # ---------------- COMPARE SCHEMES ----------------
 elif selected_top == "Compare Schemes":
 
