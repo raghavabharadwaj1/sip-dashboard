@@ -8,7 +8,7 @@ from streamlit_option_menu import option_menu
 st.set_page_config(page_title="SIP Timing Dashboard", layout="wide")
 # This puts it at the top left of the sidebar
 if os.path.exists("logo2.jpg"): # Change "logo.png" to your actual filename
-    st.sidebar.image("logo.png", use_container_width=True)
+    st.sidebar.image("logo2.jpg", use_container_width=True)
     st.sidebar.markdown("---")
 else:
     st.sidebar.warning("Logo file not found.")
