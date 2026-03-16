@@ -16,8 +16,6 @@ def load_data():
 
 df = load_data()
 
-# Filter only 3-year data
-df = df[df["period_years"] == 3]
 
 
 # ---------------- TITLE ----------------
@@ -66,6 +64,23 @@ elif selected_top == "Compare Schemes":
     )
 
     scheme_df = df[df["scheme_name"].isin(selected_schemes)]
+    st.subheader("Best SIP Day by Investment Period")
+
+periods = [1,2,3]
+
+for p in periods:
+
+    temp = scheme_df[scheme_df["period_years"] == p]
+
+    if not temp.empty:
+
+        best_row = temp.loc[temp["cagr_%"].idxmax()]
+
+        st.metric(
+            f"Best SIP Day (Year {p})",
+            f"Day {int(best_row['sip_day'])}",
+            f"{round(best_row['cagr_%'],2)}% CAGR"
+        )
 
     if len(selected_schemes) == 1:
 
@@ -125,13 +140,23 @@ elif selected_top == "Compare Schemes":
 
 elif selected_top == "Overall Analysis":
 
-    st.subheader("Overall SIP Day Performance")
+    st.subheader("Best SIP Day by Period")
 
-    overall_df = df.groupby("sip_day")["cagr_%"].mean().reset_index()
+periods = [1,2,3]
 
-    best_overall = overall_df.loc[overall_df["cagr_%"].idxmax()]
-    worst_overall = overall_df.loc[overall_df["cagr_%"].idxmin()]
+for p in periods:
 
+    temp = df[df["period_years"] == p]
+
+    overall_df = temp.groupby("sip_day")["cagr_%"].mean().reset_index()
+
+    best_row = overall_df.loc[overall_df["cagr_%"].idxmax()]
+
+    st.metric(
+        f"Overall Best Day (Year {p})",
+        f"Day {int(best_row['sip_day'])}",
+        f"{round(best_row['cagr_%'],2)}%"
+    )
     col1, col2, col3 = st.columns(3)
 
     col1.metric(
