@@ -7,8 +7,8 @@ from streamlit_option_menu import option_menu
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="SIP Timing Dashboard", layout="wide")
 # This puts it at the top left of the sidebar
-if os.path.exists("logo2.jpg"): # Change "logo.png" to your actual filename
-    st.sidebar.image("logo2.jpg", use_container_width=True)
+if os.path.exists("logo.png"): # Change "logo.png" to your actual filename
+    st.sidebar.image("logo.png", use_container_width=True)
     st.sidebar.markdown("---")
 else:
     st.sidebar.warning("Logo file not found.")
@@ -39,7 +39,7 @@ col1, col2 = st.columns([1, 9])
 # 2. LOGO COLUMN (Replacing the graph icon)
 with col1:
     # --- UPDATE THIS: Put your actual logo file name here ---
-    logo_filename = "logo.png" # Example: "my_brand_icon.png"
+    logo_filename = "logo2.jpg" # Example: "my_brand_icon.png"
 
     if os.path.exists(logo_filename):
         # Specifying only 'width=80' ensures it scales properly
