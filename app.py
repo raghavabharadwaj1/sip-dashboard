@@ -157,8 +157,11 @@ elif selected_top == "Data":
         schemes,
         default=schemes[:1]
     )
+    
     filtered_df =
-df[df["scheme_name"].isin(selected_schemes)]
+df[df["scheme_name"].isin(selected_schemes
+)]
+    
     st.dataframe(filtered_df,
 use_container_width=True)
 
