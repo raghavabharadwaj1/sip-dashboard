@@ -120,7 +120,7 @@ elif selected_top == "Compare Schemes":
             yaxis=dict(range=[-20,30])
         )
 
-        st.plotly_chart(fig
+        st.plotly_chart(fig, use_container_width=True)
 # ---------------- OVERALL ANALYSIS ----------------
 elif selected_top == "Overall Analysis":
 
