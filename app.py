@@ -54,24 +54,22 @@ if selected_top == "Home":
     )
 # ---------------- COMPARE SCHEMES ----------------
 elif selected_top == "Compare Schemes":
+
     st.sidebar.header("Filters")
 
-schemes = df["scheme_name"].unique()
+    schemes = df["scheme_name"].unique()
 
-selected_schemes = st.sidebar.multiselect(
-    "Select Schemes",
-    schemes,
-    default=schemes[:1]
-)
+    selected_schemes = st.sidebar.multiselect(
+        "Select Schemes",
+        schemes,
+        default=schemes[:1]
+    )
 
-scheme_df = df[df["scheme_name"].isin(selected_schemes)]
-scheme_df = filtered_df
+    scheme_df = df[df["scheme_name"].isin(selected_schemes)]
 
-   if len(selected_schemes) == 1:
+    if len(selected_schemes) == 1:
 
         st.subheader("Scheme Analysis")
-
-        scheme_df = scheme_df
 
         best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
         worst_row = scheme_df.loc[scheme_df["cagr_%"].idxmin()]
@@ -104,7 +102,8 @@ scheme_df = filtered_df
         )
 
         st.plotly_chart(fig, use_container_width=True)
-   else:
+
+    else:
 
         st.subheader("SIP Day CAGR Comparison")
 
@@ -121,8 +120,7 @@ scheme_df = filtered_df
             yaxis=dict(range=[-20,30])
         )
 
-        st.plotly_chart(fig, use_container_width=True)
-
+        st.plotly_chart(fig
 # ---------------- OVERALL ANALYSIS ----------------
 elif selected_top == "Overall Analysis":
 
