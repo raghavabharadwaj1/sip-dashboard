@@ -137,6 +137,7 @@ for p in periods:
 
         st.plotly_chart(fig, use_container_width=True)
 # ---------------- OVERALL ANALYSIS ----------------
+
 elif selected_top == "Overall Analysis":
 
     st.subheader("Best SIP Day by Period")
@@ -156,25 +157,7 @@ for p in periods:
         f"Day {int(best_row['sip_day'])}",
         f"{round(best_row['cagr_%'],2)}%"
     )
-    col1, col2, col3 = st.columns(3)
-
-    col1.metric(
-        "Overall Best Day",
-        f"Day {int(best_overall['sip_day'])}",
-        f"{round(best_overall['cagr_%'],2)}%"
-    )
-
-    col2.metric(
-        "Overall Worst Day",
-        f"Day {int(worst_overall['sip_day'])}",
-        f"{round(worst_overall['cagr_%'],2)}%"
-    )
-
-    col3.metric(
-        "Performance Gap",
-        f"{round(best_overall['cagr_%'] - worst_overall['cagr_%'],2)}%"
-    )
-
+  
     fig2 = px.line(
         overall_df,
         x="sip_day",
