@@ -18,17 +18,7 @@ df = load_data()
 
 # Filter only 3-year data
 df = df[df["period_years"] == 3]
-st.sidebar.header("Filters")
 
-schemes = df["scheme_name"].unique()
-
-selected_schemes = st.sidebar.multiselect(
-    "Select Schemes",
-    schemes,
-    default=schemes[:1]
-)
-
-filtered_df = df[df["scheme_name"].isin(selected_schemes)]
 
 # ---------------- TITLE ----------------
 st.title("📊 SIP Timing Analysis Dashboard")
@@ -64,6 +54,17 @@ if selected_top == "Home":
     )
 # ---------------- COMPARE SCHEMES ----------------
 elif selected_top == "Compare Schemes":
+    st.sidebar.header("Filters")
+
+schemes = df["scheme_name"].unique()
+
+selected_schemes = st.sidebar.multiselect(
+    "Select Schemes",
+    schemes,
+    default=schemes[:1]
+)
+
+scheme_df = df[df["scheme_name"].isin(selected_schemes)]
 
     scheme_df = filtered_df
 
