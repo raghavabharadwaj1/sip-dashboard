@@ -122,9 +122,12 @@ elif selected_top == "Compare Schemes":
 
         st.plotly_chart(fig, use_container_width=True)
 # ---------------- OVERALL ANALYSIS ----------------
+
 elif selected_top == "Overall Analysis":
 
-    overall_df = filtered_df.groupby("sip_day")["cagr_%"].mean().reset_index()
+    st.subheader("Overall SIP Day Performance")
+
+    overall_df = df.groupby("sip_day")["cagr_%"].mean().reset_index()
 
     best_overall = overall_df.loc[overall_df["cagr_%"].idxmax()]
     worst_overall = overall_df.loc[overall_df["cagr_%"].idxmin()]
@@ -144,7 +147,7 @@ elif selected_top == "Overall Analysis":
     )
 
     col3.metric(
-        "Overall Gap",
+        "Performance Gap",
         f"{round(best_overall['cagr_%'] - worst_overall['cagr_%'],2)}%"
     )
 
@@ -152,15 +155,11 @@ elif selected_top == "Overall Analysis":
         overall_df,
         x="sip_day",
         y="cagr_%",
-        markers=True,
-        color_discrete_sequence=["#0f9d58"]
+        markers=True
     )
 
     fig2.update_layout(
         title="Average CAGR by SIP Day",
-        xaxis_title="SIP Day",
-        yaxis_title="Average CAGR %",
-        template="plotly_white",
         yaxis=dict(range=[-20,30])
     )
 
