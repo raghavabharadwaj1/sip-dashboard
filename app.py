@@ -30,19 +30,26 @@ if df.empty:
     st.stop()
 
 # ---------------- TITLE & LOGO SECTION ----------------
-# Creating two columns: small one for logo, large one for the title
-col1, col2 = st.columns([1, 8]) 
+# ---------------- TITLE & LOGO SECTION ----------------
 
+# 1. Create columns for side-by-side placement
+# The [1, 9] ratio gives 10% space to the logo and 90% to the text
+col1, col2 = st.columns([1, 9]) 
+
+# 2. LOGO COLUMN (Replacing the graph icon)
 with col1:
-    # Make sure your file is named "logo2.jpg" and is in the same folder as this script
-    logo_path = os.path.join(BASE_DIR, "logo2.jpg")
-    
-    if os.path.exists(logo_path):
-        st.image(logo_path, width=85)
-    else:
-        # If the image is missing, show a placeholder icon so the app doesn't crash
-        st.write("📊")
+    # --- UPDATE THIS: Put your actual logo file name here ---
+    logo_filename = "logo.png" # Example: "my_brand_icon.png"
 
+    if os.path.exists(logo_filename):
+        # Specifying only 'width=80' ensures it scales properly
+        # but doesn't exceed the visual size of the previous icon.
+        st.image(logo_filename, width=80) 
+    else:
+        # Fallback in case your logo isn't found
+        st.warning("⚠️ Logo not found.")
+
+# 3. TEXT COLUMN (With smaller Hindi text)
 with col2:
     st.markdown("""
         <div style="line-height: 1.1; margin-top: -5px;">
@@ -53,8 +60,8 @@ with col2:
         </div>
         """, unsafe_allow_html=True)
 
+# Visual separator line
 st.markdown("---")
-
 
 
 
