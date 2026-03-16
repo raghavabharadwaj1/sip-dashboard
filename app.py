@@ -29,13 +29,38 @@ if df.empty:
     st.error("Data file 'SIP_Calendar_CAGR_Results.xlsx' not found. Please ensure it is in the same directory.")
     st.stop()
 
-# ---------------- TITLE ----------------
-st.markdown("""
-    <div style="text-align: left;">
-        <h1 style="margin-bottom: 0px;">MUTUAL FUNDS</h1>
-        <p style="font-size: 24px; color: #666; margin-top: 0px;">Akhir Kaunsa din sahi hai</p>
-    </div>
-    """, unsafe_allow_html=True)
+# ---------------- TITLE & LOGO SECTION ----------------
+
+# 1. Create columns for side-by-side placement
+# The [1, 9] ratio gives 10% space to the logo and 90% to the text
+col1, col2 = st.columns([1, 9]) 
+
+# 2. LOGO COLUMN (Replacing the graph icon)
+with col1:
+    # --- UPDATE THIS: Put your actual logo file name here ---
+    logo_filename = "logo2.jpg" # Example: "my_brand_icon.png"
+
+    if os.path.exists(logo_filename):
+        # Specifying only 'width=80' ensures it scales properly
+        # but doesn't exceed the visual size of the previous icon.
+        st.image(logo_filename, width=80) 
+    else:
+        # Fallback in case your logo isn't found
+        st.warning("⚠️ Logo not found.")
+
+# 3. TEXT COLUMN (With smaller Hindi text)
+with col2:
+    st.markdown("""
+        <div style="line-height: 1.1; margin-top: -5px;">
+            <h1 style="margin: 0; padding: 0; font-size: 42px; color: #31333F;">MUTUAL FUNDS</h1>
+            <p style="margin: 0; padding: 0; font-size: 20px; color: #555; font-weight: 500;">
+                Akhir Kaunsa din sahi hai
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# Visual separator line
+st.markdown("---")
 
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
