@@ -146,4 +146,4 @@ elif selected_top == "Data":
         filtered_df = df[df["scheme_name"].isin(selected_schemes)]
         st.dataframe(filtered_df, use_container_width=True)
     else:
-        st.dataframe(df, use_container_width=True
+        st.dataframe(df, use_container_width=True)
