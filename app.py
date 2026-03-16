@@ -30,25 +30,21 @@ if df.empty:
     st.stop()
 
 # ---------------- TITLE & LOGO SECTION ----------------
+# Adjust the [1, 10] ratio if your logo needs more or less horizontal space
+col1, col2 = st.columns([1, 10]) 
 
-# 1. Create columns for side-by-side placement
-# The [1, 9] ratio gives 10% space to the logo and 90% to the text
-col1, col2 = st.columns([1, 9]) 
-
-# 2. LOGO COLUMN (Replacing the graph icon)
 with col1:
-    # --- UPDATE THIS: Put your actual logo file name here ---
-    logo_filename = "logo2.jpeg" # Example: "my_brand_icon.png"
-
-    if os.path.exists(logo_filename):
-        # Specifying only 'width=80' ensures it scales properly
-        # but doesn't exceed the visual size of the previous icon.
-        st.image(logo_filename, width=80) 
+    # CHANGE THIS to your exact filename
+    logo_path = os.path.join(SCRIPT_DIR, "logo2.jpg") 
+    
+    if os.path.exists(logo_path):
+        st.image(logo_path, width=80) 
     else:
-        # Fallback in case your logo isn't found
-        st.warning("⚠️ Logo not found.")
+        # If file is not found, show a placeholder icon so the layout doesn't break
+        st.write("## 📊") 
+        # For debugging: uncomment the line below to see where it is looking
+        # st.error(f"Looking for: {logo_path}")
 
-# 3. TEXT COLUMN (With smaller Hindi text)
 with col2:
     st.markdown("""
         <div style="line-height: 1.1; margin-top: -5px;">
@@ -59,8 +55,10 @@ with col2:
         </div>
         """, unsafe_allow_html=True)
 
-# Visual separator line
 st.markdown("---")
+
+
+
 
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
