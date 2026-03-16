@@ -25,8 +25,8 @@ st.title("📊 SIP Timing Analysis Dashboard")
 # ---------------- NAVIGATION BAR ----------------
 selected_top = option_menu(
     menu_title=None,
-    options=["Home", "Compare Schemes", "Overall Analysis", "Heatmap"],
-    icons=["house","bar-chart", "globe", "grid"],
+    options=["Home", "Compare Schemes", "Overall Analysis","Data"],
+    icons=["house","bar-chart", "globe", "grid","book"],
     default_index=0,
     orientation="horizontal",
 )
@@ -148,14 +148,19 @@ elif selected_top == "Overall Analysis":
 
     st.plotly_chart(fig2, use_container_width=True)
 
-# ---------------- HEATMAP ----------------
-elif selected_top == "Heatmap":
+# ---------------- data ----------------
+elif selected_top == "Data":
+    st.subheader("Selected Scheme Data")
+    schemes = df["scheme_name"].unique()
+    selected_schemes = st.multiselect(
+        "Select Schemes to View Data",
+        schemes,
+        default=schemes[:1]
+    )
+    filtered_df =
+df[df["scheme_name"].isin(selected_schemes)]
+    st.dataframe(filtered_df,
+use_container_width=True)
 
-    st.subheader("CAGR Heatmap")
 
-    pivot = df.pivot(index="scheme_name", columns="sip_day", values="cagr_%")
-
-    plt.figure(figsize=(12,6))
-    sns.heatmap(pivot, cmap="Greens", annot=False)
-
-    st.pyplot(plt)
+   
