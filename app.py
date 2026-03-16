@@ -65,54 +65,64 @@ if selected_top == "Home":
 # ---------------- COMPARE SCHEMES ----------------
 elif selected_top == "Compare Schemes":
 
-    schemes = df["scheme_name"].unique()
+    scheme_df = filtered_df
 
-    selected_schemes = st.sidebar.multiselect(
-        "Select Schemes to Compare",
-        schemes,
-        default=schemes[:1]
-    )
+    if len(selected_schemes) == 1:
 
-    scheme_df = filtered_df[df["scheme_name"].isin(selected_schemes)]
+        st.subheader("Scheme Analysis")
 
-    fig = px.line(
-        scheme_df,
-        x="sip_day",
-        y="cagr_%",
-        color="scheme_name",
-        markers=True,
-        color_discrete_sequence=px.colors.qualitative.Set2
-    )
+        scheme_df = scheme_df
 
-    fig.update_layout(
-        title="SIP Day CAGR Comparison",
-        xaxis_title="SIP Day",
-        yaxis_title="CAGR %",
-        legend_title="Scheme",
-        template="plotly_white",
-        yaxis=dict(range=[-20,30])
-    )
+        best_row = scheme_df.loc[scheme_df["cagr_%"].idxmax()]
+        worst_row = scheme_df.loc[scheme_df["cagr_%"].idxmin()]
 
-    st.plotly_chart(fig, use_container_width=True)
+        col1, col2 = st.columns(2)
 
-    # Best SIP Day Summary
-    st.subheader("Best SIP Day per Selected Scheme")
+        col1.metric(
+            "Best SIP Day",
+            f"Day {int(best_row['sip_day'])}",
+            f"{round(best_row['cagr_%'],2)}%"
+        )
 
-    summary_data = []
+        col2.metric(
+            "Worst SIP Day",
+            f"Day {int(worst_row['sip_day'])}",
+            f"{round(worst_row['cagr_%'],2)}%"
+        )
 
-    for scheme in selected_schemes:
-        temp = df[df["scheme_name"] == scheme]
-        best_row = temp.loc[temp["cagr_%"].idxmax()]
+        fig = px.line(
+            scheme_df,
+            x="sip_day",
+            y="cagr_%",
+            markers=True,
+            color_discrete_sequence=["#0f9d58"]
+        )
 
-        summary_data.append({
-            "Scheme": scheme,
-            "Best SIP Day": int(best_row["sip_day"]),
-            "Best CAGR %": round(best_row["cagr_%"], 2)
-        })
+        fig.update_layout(
+            title="SIP Day CAGR",
+            yaxis=dict(range=[-20,30])
+        )
 
-    summary_df = pd.DataFrame(summary_data)
+        st.plotly_chart(fig, use_container_width=True)
 
-    st.dataframe(summary_df, use_container_width=True)
+    else:
+
+        st.subheader("SIP Day CAGR Comparison")
+
+        fig = px.line(
+            scheme_df,
+            x="sip_day",
+            y="cagr_%",
+            color="scheme_name",
+            markers=True
+        )
+
+        fig.update_layout(
+            title="SIP Day CAGR Comparison",
+            yaxis=dict(range=[-20,30])
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
 
 # ---------------- OVERALL ANALYSIS ----------------
 elif selected_top == "Overall Analysis":
